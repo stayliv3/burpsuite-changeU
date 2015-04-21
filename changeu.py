@@ -21,7 +21,7 @@ class BurpExtender(IBurpExtender, IHttpListener):
         # http://portswigger.net/burp/extender/api/burp/IExtensionHelpers.html
         self._helpers = callbacks.getHelpers()
         # set our extension name that will display in Extender Tab
-        self._callbacks.setExtensionName("change unicode")
+        self._callbacks.setExtensionName("unicode decode")
         # register ourselves as an HTTP listener
         callbacks.registerHttpListener(self)
         
