@@ -36,6 +36,21 @@ class BurpExtender(IBurpExtender, IHttpListener):
                  #get Response from IHttpRequestResponse instance
                 analyzedResponse = self._helpers.analyzeResponse(response) # returns IResponseInfo
                 headers = analyzedResponse.getHeaders()
+                #替换iso8859-1
+                # iterate though list of headers
+                new_headers = []
+                for header in headers:
+                    # Look for Content-Type Header)
+                    if header.startswith("Content-Type:"):
+                        # Look for HTML response
+                        # header.replace('iso-8859-1', 'utf-8')
+                        # print header
+                        new_headers.append(header.replace('iso-8859-1', 'utf-8'))
+                    else:
+                        new_headers.append(header)
+
+                print new_headers
+
                 body = response[analyzedResponse.getBodyOffset():]
                 body_string = body.tostring()
                 # print body_string
@@ -46,7 +61,7 @@ class BurpExtender(IBurpExtender, IHttpListener):
                     new_body_string = body_string.replace(u_char_escape.group(),'--u--'+u_char+'--u--')
                     new_body = self._helpers.bytesToString(new_body_string)
                     # print new_body_string
-                    messageInfo.setResponse(self._helpers.buildHttpMessage(headers, new_body))
+                    messageInfo.setResponse(self._helpers.buildHttpMessage(new_headers, new_body))
 
                 
     
