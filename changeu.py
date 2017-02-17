@@ -29,7 +29,7 @@ class BurpExtender(IBurpExtender, IHttpListener):
     def processHttpMessage(self, toolFlag, messageIsRequest, messageInfo):
         
         # determine what tool we would like to pass though our extension:
-        if toolFlag == 64: #if tool is Proxy Tab or repeater
+        if toolFlag == 64 or toolFlag == 16 or toolFlag == 32: #if tool is Proxy Tab or repeater
             # determine if request or response:
             if not messageIsRequest:#only handle responses
                 response = messageInfo.getResponse()
